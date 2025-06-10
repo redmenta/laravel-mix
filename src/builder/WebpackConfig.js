@@ -128,8 +128,6 @@ class WebpackConfig {
 
             liveReload: false,
 
-            https,
-
             devMiddleware: {
                 headers: {
                     'Access-Control-Allow-Origin': '*',
@@ -141,9 +139,14 @@ class WebpackConfig {
 
             /**
              *
-             * @param {{app: import("express").Application}} param0
+             * @param {import('webpack-dev-server').Middleware[]} middlewares
+             * @param {{app: import("express").Application | undefined}} param1
              */
-            onBeforeSetupMiddleware({ app }) {
+            setupMiddlewares(middlewares, { app }) {
+                if (!app) {
+                    return middlewares;
+                }
+
                 app.use(function (req, _, next) {
                     // Something causes hot update chunks (except for the JSON payload)
                     // to start with a double slash
@@ -155,6 +158,8 @@ class WebpackConfig {
 
                     next();
                 });
+
+                return middlewares;
             },
 
             ...this.webpackConfig.devServer

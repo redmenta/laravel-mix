@@ -63,7 +63,7 @@ module.exports = class React extends Component {
 
         const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
-        return [new ReactRefreshPlugin({ overlay: { sockPath: 'ws' } })];
+        return [new ReactRefreshPlugin()];
     }
 
     /**
